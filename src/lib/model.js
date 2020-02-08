@@ -24,7 +24,7 @@ export const resolveImage = (uri, image, data, itemSource) => {
 			height
 		}
 	// eslint-disable-next-line no-undef
-	}), (err) => reject(err)));
+	}), (err) => reject(err, image)));
 };
 
 export const resolveLocal = (image, data, itemSource) => {

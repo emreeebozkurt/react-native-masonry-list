@@ -523,9 +523,47 @@ export default class MasonryList extends React.PureComponent {
 				resolveImages.map((resolveTask) => {
 					if (resolveTask && resolveTask.fork) {
 						resolveTask.fork(
-							(err) => {
+							(err, data) => {
 								// eslint-disable-next-line handle-callback-err, no-console
 								console.warn("react-native-masonry-list", "Image failed to load.", err);
+
+								const resolvedImage = {
+									"book": data.book,
+									"column": [0, 1][Math.floor(Math.random() * 2)], // Rastgele kolon
+									"dimensions": {
+									  "height": 200,
+									  "width": 200,
+									},
+									"index": 7,
+									"masonryDimensions": {
+									  "gutter": 7.5,
+									  "height": 175.75,
+									  "margin": 3.75,
+									  "width": 175.75,
+									},
+									"source": {
+									  "uri": "MISSINGIMAGE",
+									},
+									"uri": "MISSINGIMAGE",
+								  };
+
+								  if (this.renderIndex !== 0) {
+									this.setState((state) => {
+										const sortedData = insertIntoColumn(resolvedImage, state._sortedData, sorted);
+										this._calculatedData = this._calculatedData.concat(resolvedImage);
+										this.renderIndex++;
+										return {
+											_sortedData: sortedData
+										};
+									});
+								} else {
+									const sortedData = insertIntoColumn(resolvedImage, [], sorted);
+									this._calculatedData = [resolvedImage];
+									this.renderIndex++;
+									this.setState({
+										_sortedData: sortedData
+									});
+								}
 
 								this.doneTotal++;
 								if (
